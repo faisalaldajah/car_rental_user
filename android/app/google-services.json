@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "1076156242345",
+    "firebase_url": "https://cars-rental-office-default-rtdb.firebaseio.com",
+    "project_id": "cars-rental-office",
+    "storage_bucket": "cars-rental-office.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076156242345:android:399a112f66d6601a324cb8",
+        "android_client_info": {
+          "package_name": "wetech.car_rental_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076156242345-rgu9362bm86slq4lib91bqduane7lrvi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "wetech.car_rental_user",
+            "certificate_hash": "04ca2998cff45c550917cd7e190d13551539ce1d"
+          }
+        },
+        {
+          "client_id": "1076156242345-ersbu4b3n70l36dev1tneh5i6vt5afco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl-E1ZwMa2YtWIofSjw6G8_YYnWAegRaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076156242345-ersbu4b3n70l36dev1tneh5i6vt5afco.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076156242345:android:6084a6e3678a3b3e324cb8",
+        "android_client_info": {
+          "package_name": "wetech.cars_rental_office"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076156242345-ersbu4b3n70l36dev1tneh5i6vt5afco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl-E1ZwMa2YtWIofSjw6G8_YYnWAegRaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076156242345-ersbu4b3n70l36dev1tneh5i6vt5afco.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
