@@ -278,7 +278,9 @@ class ViewCarDetails extends StatelessWidget {
                     showDialog(
                       context: context,
                       barrierDismissible: false,
-                      builder: (BuildContext context) => ReservationDialog(),
+                      builder: (BuildContext context) => ReservationDialog(
+                        carInfo: carInfo,
+                      ),
                     );
                   },
                 )

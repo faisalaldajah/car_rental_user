@@ -32,26 +32,29 @@ class _MainPageState extends State<MainPage> {
         body: (youHaveData != true)
             ? Container(child: Center(child: Text('Wait to get data')))
             : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Text('Choose your car',style: pageTitle,),
-                ),
-                Flexible(
-                  child: Container(
-                    child: ListView.builder(
-                        itemCount: carsDetail.length,
-                        itemBuilder: (context, index) {
-                          return CarDetailCard(
-                            carsDetail: carsDetail,
-                            index: index,
-                          );
-                        }),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      'Choose your car',
+                      style: pageTitle,
+                    ),
                   ),
-                ),
-              ],
-            ));
+                  Flexible(
+                    child: Container(
+                      child: ListView.builder(
+                          itemCount: carsDetail.length,
+                          itemBuilder: (context, index) {
+                            return CarDetailCard(
+                              carsDetail: carsDetail,
+                              index: index,
+                            );
+                          }),
+                    ),
+                  ),
+                ],
+              ));
   }
 
   Future<void> getData() async {
@@ -89,18 +92,18 @@ class _MainPageState extends State<MainPage> {
         url = snapshot.value[key]['image_url'];
 
         carDetail = CarInfo(
-          carColor: carColor,
-          carModel: carModel,
-          carNumber: carNumber,
-          carSeats: carSeat,
-          carType: carType,
-          dateOfFactor: dateOfFactor,
-          features: features,
-          fuel: fuel,
-          gearbox: gearBox,
-          pricePerDay: pricePerDay,
-          urlImage: url,
-        );
+            carColor: carColor,
+            carModel: carModel,
+            carNumber: carNumber,
+            carSeats: carSeat,
+            carType: carType,
+            dateOfFactor: dateOfFactor,
+            features: features,
+            fuel: fuel,
+            gearbox: gearBox,
+            pricePerDay: pricePerDay,
+            urlImage: url,
+            key: key);
         carsDetail.add(carDetail);
       }
       setState(() {
