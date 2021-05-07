@@ -1,11 +1,9 @@
 import 'package:car_rental_user/Screen/Payment.dart';
 import 'package:car_rental_user/Widget/SmallBtn.dart';
 import 'package:car_rental_user/models/CarInfo.dart';
-import 'package:car_rental_user/models/DataProvider.dart';
 import 'package:car_rental_user/utils.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ReservationDialog extends StatefulWidget {
   final CarInfo carInfo;
@@ -20,12 +18,24 @@ class _ReservationDialogState extends State<ReservationDialog> {
   DateTime end = DateTime.now();
   var userName;
   var phone;
-  bool  dateer = false;
+  bool dateer = false;
 
   @override
   void initState() {
     userFullName();
     super.initState();
+  }
+
+  void userFullName() {
+    DatabaseReference userRef = FirebaseDatabase.instance
+        .reference()
+        .child('users/${currentFirebaseUser.uid}');
+
+    userRef.once().then((DataSnapshot snapshot) {
+      userName = snapshot.value['fullname'];
+      phone = snapshot.value['phone'];
+      print('user:$userName');
+    });
   }
 
   @override
@@ -121,9 +131,18 @@ class _ReservationDialogState extends State<ReservationDialog> {
               SmallBtn(
                 title: 'Confirm',
                 onPressed: () {
-                  availabilityCar();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Payment()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Payment(
+                        carInfo: widget.carInfo,
+                        end: end,
+                        start: start,
+                        phone: phone,
+                        userName: userName,
+                      ),
+                    ),
+                  );
                 },
               )
             ],
@@ -131,35 +150,6 @@ class _ReservationDialogState extends State<ReservationDialog> {
         ),
       ),
     );
-  }
-
-  void userFullName() {
-    DatabaseReference userRef = FirebaseDatabase.instance
-        .reference()
-        .child('users/${currentFirebaseUser.uid}');
-
-    userRef.once().then((DataSnapshot snapshot) {
-      userName = snapshot.value['fullname'];
-      phone = snapshot.value['phone'];
-      print('user:$userName');
-    });
-  }
-
-  void availabilityCar() {
-    //print('key:${widget.carInfo.key}');
-    DatabaseReference carRef = FirebaseDatabase.instance
-        .reference()
-        .child('cars/${widget.carInfo.key}');
-     if (currentFirebaseUser != null && dateer == false) {
-      Map availabilityCar = {
-        'availability': 'not available',
-        'from': '${start.year}/${start.month}/${start.day}',
-        'to': '${end.year}/${end.month}/${end.day}',
-        'name': userName,
-        'phone': phone
-      };
-      carRef.child('availability').set(availabilityCar);
-    }
   }
 
   Future<void> _endDate(BuildContext context) async {

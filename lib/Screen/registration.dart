@@ -187,7 +187,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
 
                       GradientButton(
-                        title: 'تسجيل',
+                        title: 'Register',
                         onPressed: () async {
                           //check network availability
 

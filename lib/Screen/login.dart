@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 40,
                       ),
                       GradientButton(
-                        title: 'دخول',
+                        title: 'Login',
                         onPressed: () async {
                           //check network availability
 

@@ -1,12 +1,25 @@
 import 'package:car_rental_user/Widget/GradientButton.dart';
 import 'package:car_rental_user/Widget/SmallBtn.dart';
-import 'package:car_rental_user/models/DataProvider.dart';
+import 'package:car_rental_user/models/CarInfo.dart';
 import 'package:car_rental_user/utils.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 
 class Payment extends StatefulWidget {
+  final CarInfo carInfo;
+  final DateTime start;
+  final DateTime end;
+  final String userName;
+  final String phone;
+  Payment({
+    this.carInfo,
+    this.end,
+    this.start,
+    this.phone,
+    this.userName,
+  });
+
   @override
   _PaymentState createState() => _PaymentState();
 }
@@ -14,6 +27,50 @@ class Payment extends StatefulWidget {
 class _PaymentState extends State<Payment> {
   var cash = false;
   var card = false;
+
+  var price;
+  String paymentMethod;
+  void totalPayment() {
+    var discount = widget.start.day.toDouble() - widget.end.day.toDouble();
+    if (widget.start.day == widget.end.day) {
+      price = widget.carInfo.pricePerDay;
+    } else if (discount.toDouble() * -1 > 7) {
+      price = (discount * double.parse(widget.carInfo.pricePerDay) * -1) * 0.8;
+    } else {
+      price = discount * double.parse(widget.carInfo.pricePerDay) * -1;
+    }
+  }
+
+  @override
+  void initState() {
+    totalPayment();
+    super.initState();
+  }
+
+  void availabilityCar() {
+    if (cash == true) {
+      paymentMethod = 'cash';
+    }
+    if (card == true) {
+      paymentMethod = 'card';
+    }
+    DatabaseReference carRef = FirebaseDatabase.instance
+        .reference()
+        .child('cars/${widget.carInfo.key}');
+    if (currentFirebaseUser != null) {
+      Map availabilityCar = {
+        'availability': 'not available',
+        'from':
+            '${widget.start.year}/${widget.start.month}/${widget.start.day}',
+        'to': '${widget.end.year}/${widget.end.month}/${widget.end.day}',
+        'name': widget.userName,
+        'phone': widget.phone,
+        'dateOfFactor': widget.carInfo.pricePerDay,
+        'payment_method': paymentMethod
+      };
+      carRef.child('availability').set(availabilityCar);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +101,9 @@ class _PaymentState extends State<Payment> {
               color: colorBtn1,
             ),
             SizedBox(height: 15),
-            Text('name'),
+            Text('${widget.userName}'),
             SizedBox(height: 15),
-            Text('phone number'),
+            Text('${widget.phone}'),
             SizedBox(height: 20),
             Text(
               'Choose payment method',
@@ -89,7 +146,7 @@ class _PaymentState extends State<Payment> {
             ),
             SizedBox(height: 30),
             Text(
-              'total payment',
+              '${price}JD',
               style: TextStyle(fontSize: 40),
             ),
             SizedBox(height: 20),
@@ -109,6 +166,7 @@ class _PaymentState extends State<Payment> {
             GradientButton(
               title: 'Confirm',
               onPressed: () {
+                availabilityCar();
                 getPaid();
               },
             ),
@@ -120,17 +178,27 @@ class _PaymentState extends State<Payment> {
   }
 
   void getPaid() {
-    if (cash == true && card == true) {
+    if (cash == true) {
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) => OnePaymentMetod(),
       );
-    } else if (cash == true && card == false) {}
+    }
+    if (card == true) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => CardPayment(),
+      );
+    }
   }
 }
 
 class OnePaymentMetod extends StatelessWidget {
+  String cashPayment =
+      'please pay when you get your car from our office!! after tow day your rental will dismis';
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -148,7 +216,7 @@ class OnePaymentMetod extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              'Please checke one payment method',
+              cashPayment,
               textAlign: TextAlign.center,
               style: bodyText,
             ),
@@ -166,5 +234,26 @@ class OnePaymentMetod extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class CardPayment extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Color(0xfff5f5f5),
+        appBar: AppBar(
+          backgroundColor: Color(0xfff5f5f5),
+          elevation: 0,
+          title: Text('Card Payment',style: pageTitle,),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ));
   }
 }
