@@ -158,8 +158,9 @@ class _LoginPageState extends State<LoginPage> {
                             showSnackBar('Please enter a valid password');
                             return;
                           }
-
-                          login();
+                          setState(() {
+                            login();
+                          });
                         },
                       ),
                     ],

@@ -1,3 +1,4 @@
+import 'package:car_rental_user/Screen/login.dart';
 import 'package:car_rental_user/Widget/GradientButton.dart';
 import 'package:car_rental_user/Widget/ReservationDialog.dart';
 import 'package:car_rental_user/models/CarInfo.dart';
@@ -275,13 +276,17 @@ class ViewCarDetails extends StatelessWidget {
                 GradientButton(
                   title: 'Reservation',
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) => ReservationDialog(
-                        carInfo: carInfo,
-                      ),
-                    );
+                    if (currentFirebaseUser != null) {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) => ReservationDialog(
+                          carInfo: carInfo,
+                        ),
+                      );
+                    } else {
+                      Navigator.pushNamed(context, LoginPage.id);
+                    }
                   },
                 )
               ],

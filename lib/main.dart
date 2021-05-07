@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Ok car',
       theme: ThemeData(primaryColor: Colors.white, accentColor: Colors.purple),
-      initialRoute: (currentFirebaseUser == null) ? LoginPage.id : MainPage.id,
+      initialRoute: MainPage.id,
       routes: {
         MainPage.id: (context) => MainPage(),
         LoginPage.id: (context) => LoginPage(),

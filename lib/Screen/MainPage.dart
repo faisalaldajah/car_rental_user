@@ -1,6 +1,8 @@
+import 'package:car_rental_user/Screen/login.dart';
 import 'package:car_rental_user/Widget/CarDetailCard.dart';
 import 'package:car_rental_user/models/CarInfo.dart';
 import 'package:car_rental_user/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +22,10 @@ class _MainPageState extends State<MainPage> {
     getData();
   }
 
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +34,16 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: Color(0xffe8e8e8),
           elevation: 0,
           title: Text('Welcome.'),
+          actions: [
+            (currentFirebaseUser != null)
+                ? IconButton(
+                    icon: Icon(Icons.logout),
+                    onPressed: () {
+                      _signOut();
+                      Navigator.pushNamed(context, LoginPage.id);
+                    })
+                : Container()
+          ],
         ),
         body: (youHaveData != true)
             ? Container(child: Center(child: Text('Wait to get data')))
@@ -60,7 +76,7 @@ class _MainPageState extends State<MainPage> {
   Future<void> getData() async {
     DatabaseReference carRef =
         FirebaseDatabase.instance.reference().child('cars');
-
+    
     CarInfo carDetail;
     var keys;
     String carModel;
