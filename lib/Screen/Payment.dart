@@ -1,3 +1,4 @@
+import 'package:car_rental_user/Screen/MainPage.dart';
 import 'package:car_rental_user/Widget/GradientButton.dart';
 import 'package:car_rental_user/Widget/SmallBtn.dart';
 import 'package:car_rental_user/models/CarInfo.dart';
@@ -48,6 +49,10 @@ class _PaymentState extends State<Payment> {
   }
 
   void availabilityCar() {
+    
+
+
+
     if (cash == true) {
       paymentMethod = 'cash';
     }
@@ -189,12 +194,15 @@ class _PaymentState extends State<Payment> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => CardPayment(),
+        builder: (BuildContext context) => CardPayment(
+          carInfo: widget.carInfo,
+        ),
       );
     }
   }
 }
 
+// ignore: must_be_immutable
 class OnePaymentMetod extends StatelessWidget {
   String cashPayment =
       'please pay when you get your car from our office!! after tow day your rental will dismis';
@@ -227,7 +235,7 @@ class OnePaymentMetod extends StatelessWidget {
             SmallBtn(
               title: 'Confirm',
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, MainPage.id);
               },
             )
           ],
@@ -237,23 +245,123 @@ class OnePaymentMetod extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CardPayment extends StatelessWidget {
+  CarInfo carInfo;
+  CardPayment({this.carInfo});
+
+  TextEditingController cardNumber = TextEditingController();
+  TextEditingController cardHolderName = TextEditingController();
+  TextEditingController exp = TextEditingController();
+  TextEditingController cvc = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff5f5f5),
+      appBar: AppBar(
         backgroundColor: Color(0xfff5f5f5),
-        appBar: AppBar(
-          backgroundColor: Color(0xfff5f5f5),
-          elevation: 0,
-          title: Text('Card Payment',style: pageTitle,),
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_outlined,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+        elevation: 0,
+        title: Text(
+          'Card Payment',
+          style: pageTitle,
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_outlined,
           ),
-        ));
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: ListView(
+        children: [
+          SizedBox(height: 30),
+          Icon(
+            Icons.payments_outlined,
+            size: 150,
+            color: colorBtn1,
+          ),
+          SizedBox(height: 20),
+          Container(
+            margin: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                TextField(
+                  controller: cardNumber,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      labelText: 'card number',
+                      labelStyle: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10.0)),
+                  style: TextStyle(fontSize: 14),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: cardHolderName,
+                  decoration: InputDecoration(
+                      labelText: 'card holder name',
+                      labelStyle: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10.0)),
+                  style: TextStyle(fontSize: 14),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: exp,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      labelText: 'EXP',
+                      labelStyle: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10.0)),
+                  style: TextStyle(fontSize: 14),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: cvc,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      labelText: 'cvc',
+                      labelStyle: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10.0)),
+                  style: TextStyle(fontSize: 14),
+                ),
+                SizedBox(height: 40),
+                GradientButton(
+                  title: 'Confirm',
+                  onPressed: () {
+                    cardDetails(context);
+                  },
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void cardDetails(context) {
+    DatabaseReference carRef =
+        FirebaseDatabase.instance.reference().child('cars/${carInfo.key}');
+    Map cardDetail = {
+      'cardNumber': cardNumber.text,
+      'cardHolderName': cardHolderName.text,
+      'exp': exp.text,
+      'cvc': cvc.text,
+    };
+    carRef.child('availability/card').set(cardDetail);
+    cardNumber.clear();
+    cardHolderName.clear();
+    exp.clear();
+    cvc.clear();
+    Navigator.pushNamed(context, MainPage.id);
   }
 }

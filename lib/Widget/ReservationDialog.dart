@@ -158,10 +158,18 @@ class _ReservationDialogState extends State<ReservationDialog> {
         initialDate: start,
         firstDate: DateTime(2020),
         lastDate: DateTime(2022));
-    if (pickedDate != null && pickedDate != currentDate)
+    if (pickedDate != null && pickedDate != currentDate) {
+      /* if (currentDate.year >= pickedDate.year) {
+        displayToastMessage('wrong choice', context);
+        Navigator.pop(context);
+      } else if (currentDate.month >= pickedDate.month) {
+        displayToastMessage('wrong choice', context);
+        Navigator.pop(context);
+      } else if (currentDate.day <= pickedDate.day) {}*/
       setState(() {
         end = pickedDate;
       });
+    }
   }
 
   Future<void> _startDate(BuildContext context) async {
