@@ -19,6 +19,7 @@ class _ReservationDialogState extends State<ReservationDialog> {
   var userName;
   var phone;
   bool dateer = false;
+  var rangeDayOfRent;
 
   @override
   void initState() {
@@ -86,7 +87,9 @@ class _ReservationDialogState extends State<ReservationDialog> {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          _startDate(context);
+                          setState(() {
+                            _startDate(context);
+                          });
                         },
                       ),
                     )
@@ -121,16 +124,22 @@ class _ReservationDialogState extends State<ReservationDialog> {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          _endDate(context);
+                          setState(() {
+                            _endDate(context);
+                          });
                         },
                       ),
                     )
                   ],
                 ),
               ),
+              SizedBox(height: 5),
+              SizedBox(height: 5),
               SmallBtn(
                 title: 'Confirm',
                 onPressed: () {
+                  range();
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -140,6 +149,7 @@ class _ReservationDialogState extends State<ReservationDialog> {
                         start: start,
                         phone: phone,
                         userName: userName,
+                        rangeOfDayRent: rangeDayOfRent,
                       ),
                     ),
                   );
@@ -154,34 +164,52 @@ class _ReservationDialogState extends State<ReservationDialog> {
 
   Future<void> _endDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
-        context: context,
-        initialDate: start,
-        firstDate: DateTime(2020),
-        lastDate: DateTime(2022));
+      context: context,
+      initialDate: start,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2022),
+      selectableDayPredicate: _decideWhichDayToEnable,
+    );
     if (pickedDate != null && pickedDate != currentDate) {
-      /* if (currentDate.year >= pickedDate.year) {
-        displayToastMessage('wrong choice', context);
-        Navigator.pop(context);
-      } else if (currentDate.month >= pickedDate.month) {
-        displayToastMessage('wrong choice', context);
-        Navigator.pop(context);
-      } else if (currentDate.day <= pickedDate.day) {}*/
+      end.compareTo(start);
       setState(() {
         end = pickedDate;
       });
     }
   }
 
+  bool _decideWhichDayToEnable(DateTime day) {
+    if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
+        day.isBefore(DateTime.now().add(Duration(days: 365))))) {
+      return true;
+    }
+    return false;
+  }
+
   Future<void> _startDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
-        context: context,
-        initialDate: start,
-        firstDate: DateTime(2020),
-        lastDate: DateTime(2022));
-    if (pickedDate != null && pickedDate != currentDate)
+      context: context,
+      initialDate: start,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2022),
+      selectableDayPredicate: _decideWhichDayToEnable,
+    );
+
+    if (pickedDate != null) {
       setState(() {
         start = pickedDate;
       });
+    }
+  }
+
+  void range() {
+    rangeDayOfRent = end.difference(start);
+    if (rangeDayOfRent == 0) {
+      rangeDayOfRent += 1;
+    }
+    var dayRents = rangeDayOfRent.toString().split(":")[0];
+    rangeDayOfRent = int.parse(dayRents) ~/ 24;
+    print('day: $rangeDayOfRent');
   }
 }
 
