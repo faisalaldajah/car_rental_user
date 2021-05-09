@@ -22,8 +22,16 @@ class _MainPageState extends State<MainPage> {
     getData();
   }
 
+  void makeRoutePage({BuildContext context, Widget pageRef}) {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => pageRef),
+        (Route<dynamic> route) => false);
+  }
+
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
+   // makeRoutePage(context: LoginPage());
   }
 
   @override
@@ -40,7 +48,7 @@ class _MainPageState extends State<MainPage> {
                     icon: Icon(Icons.logout),
                     onPressed: () {
                       _signOut();
-                      Navigator.pushNamed(context, LoginPage.id);
+                      Navigator.pop(context);
                     })
                 : Container()
           ],
@@ -76,7 +84,7 @@ class _MainPageState extends State<MainPage> {
   Future<void> getData() async {
     DatabaseReference carRef =
         FirebaseDatabase.instance.reference().child('cars');
-    
+
     CarInfo carDetail;
     var keys;
     String carModel;
