@@ -10,7 +10,8 @@ class CarInfo {
   final String carNumber;
   final String dateOfFactor;
   final String urlImage;
-  final String available;
+  var available;
+  var availabltykey;
   final String key;
 
   CarInfo({
@@ -27,5 +28,6 @@ class CarInfo {
     this.urlImage,
     this.available,
     this.key,
+    this.availabltykey,
   });
 }

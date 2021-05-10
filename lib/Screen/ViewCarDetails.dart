@@ -1,3 +1,4 @@
+import 'package:car_rental_user/Screen/Availablty.dart';
 import 'package:car_rental_user/Screen/login.dart';
 import 'package:car_rental_user/Widget/GradientButton.dart';
 import 'package:car_rental_user/Widget/ReservationDialog.dart';
@@ -204,13 +205,26 @@ class ViewCarDetails extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            'availablty',
-                                            style: bodyText,
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Availablty(
+                                                    carInfo: carInfo,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Text(
+                                              'Availablty',
+                                              style: bodyText,
+                                            ),
                                           ),
                                           SizedBox(height: 4),
                                           Text(
-                                            'available',
+                                            'Availablty',
                                             style: bodyText,
                                           ),
                                         ],

@@ -56,6 +56,7 @@ class _PaymentState extends State<Payment> {
   }
 
   void availabilityCar() {
+    print(totalPrice);
     if (cash == true) {
       paymentMethod = 'cash';
     }
@@ -64,7 +65,7 @@ class _PaymentState extends State<Payment> {
     }
     DatabaseReference carRef = FirebaseDatabase.instance
         .reference()
-        .child('cars/${widget.carInfo.key}');
+        .child('cars/${widget.carInfo.key}').child('availability');
     if (currentFirebaseUser != null) {
       Map availabilityCar = {
         'availability': 'not available',
@@ -73,10 +74,10 @@ class _PaymentState extends State<Payment> {
         'to': '${widget.end.year}/${widget.end.month}/${widget.end.day}',
         'name': widget.userName,
         'phone': widget.phone,
-        'dateOfFactor': widget.carInfo.pricePerDay,
+        'price': totalPrice,
         'payment_method': paymentMethod
       };
-      carRef.child('availability').set(availabilityCar);
+      carRef.push().set(availabilityCar);
     }
   }
 

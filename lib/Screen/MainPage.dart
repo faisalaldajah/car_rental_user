@@ -1,4 +1,3 @@
-import 'package:car_rental_user/Screen/login.dart';
 import 'package:car_rental_user/Widget/CarDetailCard.dart';
 import 'package:car_rental_user/models/CarInfo.dart';
 import 'package:car_rental_user/utils.dart';
@@ -31,54 +30,65 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-   // makeRoutePage(context: LoginPage());
+    // makeRoutePage(context: LoginPage());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffe8e8e8),
+      appBar: AppBar(
         backgroundColor: Color(0xffe8e8e8),
-        appBar: AppBar(
-          backgroundColor: Color(0xffe8e8e8),
-          elevation: 0,
-          title: Text('Welcome.'),
-          actions: [
-            (currentFirebaseUser != null)
-                ? IconButton(
-                    icon: Icon(Icons.logout),
-                    onPressed: () {
-                      _signOut();
-                      Navigator.pop(context);
-                    })
-                : Container()
-          ],
-        ),
-        body: (youHaveData != true)
-            ? Container(child: Center(child: Text('Wait to get data')))
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      'Choose your car',
-                      style: pageTitle,
-                    ),
+        elevation: 0,
+        title: Text('Welcome.'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh_outlined),
+            onPressed: () {
+              setState(() {
+                youHaveData = false;
+                carsDetail.clear();
+                getData();
+              });
+            },
+          ),
+          (currentFirebaseUser != null)
+              ? IconButton(
+                  icon: Icon(Icons.logout),
+                  onPressed: () {
+                    _signOut();
+                    Navigator.pop(context);
+                  })
+              : Container(),
+        ],
+      ),
+      body: (youHaveData != true)
+          ? Container(child: Center(child: Text('Wait to get data')))
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    'Choose your car',
+                    style: pageTitle,
                   ),
-                  Flexible(
-                    child: Container(
-                      child: ListView.builder(
-                          itemCount: carsDetail.length,
-                          itemBuilder: (context, index) {
-                            return CarDetailCard(
-                              carsDetail: carsDetail,
-                              index: index,
-                            );
-                          }),
-                    ),
+                ),
+                Flexible(
+                  child: Container(
+                    child: ListView.builder(
+                        itemCount: carsDetail.length,
+                        itemBuilder: (context, index) {
+                          return CarDetailCard(
+                            carsDetail: carsDetail,
+                            index: index,
+                          );
+                        }),
                   ),
-                ],
-              ));
+                ),
+              ],
+            ),
+    );
   }
 
   Future<void> getData() async {
@@ -116,18 +126,19 @@ class _MainPageState extends State<MainPage> {
         url = snapshot.value[key]['image_url'];
 
         carDetail = CarInfo(
-            carColor: carColor,
-            carModel: carModel,
-            carNumber: carNumber,
-            carSeats: carSeat,
-            carType: carType,
-            dateOfFactor: dateOfFactor,
-            features: features,
-            fuel: fuel,
-            gearbox: gearBox,
-            pricePerDay: pricePerDay,
-            urlImage: url,
-            key: key);
+          carColor: carColor,
+          carModel: carModel,
+          carNumber: carNumber,
+          carSeats: carSeat,
+          carType: carType,
+          dateOfFactor: dateOfFactor,
+          features: features,
+          fuel: fuel,
+          gearbox: gearBox,
+          pricePerDay: pricePerDay,
+          urlImage: url,
+          key: key,
+        );
         carsDetail.add(carDetail);
       }
       setState(() {
