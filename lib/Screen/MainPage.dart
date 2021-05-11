@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    // makeRoutePage(context: LoginPage());
+    makeRoutePage(context: LoginPage());
   }
 
   @override
