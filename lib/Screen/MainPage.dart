@@ -1,3 +1,4 @@
+import 'package:car_rental_user/Screen/PhoneLogin/screens/loginpage.dart';
 import 'package:car_rental_user/Widget/CarDetailCard.dart';
 import 'package:car_rental_user/models/CarInfo.dart';
 import 'package:car_rental_user/utils.dart';
@@ -30,7 +31,7 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    makeRoutePage(context: LoginPage());
+    Navigator.pushNamed(context, LoginPages.id);
   }
 
   @override
