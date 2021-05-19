@@ -1,4 +1,5 @@
 import 'package:car_rental_user/Screen/MainPage.dart';
+import 'package:car_rental_user/Screen/ResetPassword.dart';
 import 'package:car_rental_user/Screen/login.dart';
 import 'package:car_rental_user/Screen/registration.dart';
 import 'package:car_rental_user/utils.dart';
@@ -22,13 +23,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ok car',
-      theme: ThemeData(primaryColor: Colors.white, accentColor: Colors.purple),
       initialRoute: MainPage.id,
       routes: {
         MainPage.id: (context) => MainPage(),
         LoginPage.id: (context) => LoginPage(),
-        RegistrationPage.id: (context) => RegistrationPage()
-        
+        RegistrationPage.id: (context) => RegistrationPage(),
+        ResetPassword.id: (context) => ResetPassword()
       },
     );
   }

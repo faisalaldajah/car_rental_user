@@ -14,6 +14,7 @@ class Payment extends StatefulWidget {
   final String userName;
   final String phone;
   final rangeOfDayRent;
+  final String pickUpLocation;
   Payment({
     this.carInfo,
     this.end,
@@ -21,6 +22,7 @@ class Payment extends StatefulWidget {
     this.phone,
     this.userName,
     this.rangeOfDayRent,
+    this.pickUpLocation,
   });
 
   @override
@@ -56,7 +58,6 @@ class _PaymentState extends State<Payment> {
   }
 
   void availabilityCar() {
-    print(totalPrice);
     if (cash == true) {
       paymentMethod = 'cash';
     }
@@ -65,7 +66,8 @@ class _PaymentState extends State<Payment> {
     }
     DatabaseReference carRef = FirebaseDatabase.instance
         .reference()
-        .child('cars/${widget.carInfo.key}').child('availability');
+        .child('cars/${widget.carInfo.key}')
+        .child('availability');
     if (currentFirebaseUser != null) {
       Map availabilityCar = {
         'availability': 'not available',
@@ -75,7 +77,8 @@ class _PaymentState extends State<Payment> {
         'name': widget.userName,
         'phone': widget.phone,
         'price': totalPrice,
-        'payment_method': paymentMethod
+        'payment_method': paymentMethod,
+        'pickUpLocation': widget.pickUpLocation,
       };
       carRef.push().set(availabilityCar);
     }
@@ -158,12 +161,17 @@ class _PaymentState extends State<Payment> {
               '${totalPrice}JD',
               style: TextStyle(fontSize: 40),
             ),
+            SizedBox(height: 30),
+            Text(
+              '${widget.pickUpLocation}',
+              style: TextStyle(fontSize: 25,color: Colors.black),
+            ),
             SizedBox(height: 20),
             Expanded(
                 child: Container(
               child: Column(
                 children: [
-                  Text('Thasnk you for choosing us'),
+                  Text('Thanks you for choosing us'),
                   SvgPicture.asset(
                     'assets/images/logo.svg',
                     width: 120,
@@ -191,7 +199,7 @@ class _PaymentState extends State<Payment> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => OnePaymentMetod(),
+        builder: (BuildContext context) => CashPaymentMetod(),
       );
     }
     if (card == true) {
@@ -207,10 +215,9 @@ class _PaymentState extends State<Payment> {
 }
 
 // ignore: must_be_immutable
-class OnePaymentMetod extends StatelessWidget {
+class CashPaymentMetod extends StatelessWidget {
   String cashPayment =
       'please pay when you get your car from our office!! after tow day your rental will dismis';
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -351,7 +358,7 @@ class CardPayment extends StatelessWidget {
       ),
     );
   }
-
+  //TODO
   void cardDetails(context) {
     DatabaseReference carRef =
         FirebaseDatabase.instance.reference().child('cars/${carInfo.key}');
@@ -366,6 +373,7 @@ class CardPayment extends StatelessWidget {
     cardHolderName.clear();
     exp.clear();
     cvc.clear();
+    FocusScope.of(context).requestFocus(FocusNode());
     Navigator.pushNamed(context, MainPage.id);
   }
 }

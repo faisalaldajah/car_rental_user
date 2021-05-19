@@ -18,9 +18,8 @@ class _ReservationDialogState extends State<ReservationDialog> {
   DateTime end = DateTime.now();
   var userName;
   var phone;
-  bool dateer = false;
   var rangeDayOfRent;
-
+  var pickUpLocationController = TextEditingController();
   @override
   void initState() {
     userFullName();
@@ -35,7 +34,6 @@ class _ReservationDialogState extends State<ReservationDialog> {
     userRef.once().then((DataSnapshot snapshot) {
       userName = snapshot.value['fullname'];
       phone = snapshot.value['phone'];
-      print('user:$userName');
     });
   }
 
@@ -47,7 +45,7 @@ class _ReservationDialogState extends State<ReservationDialog> {
       child: Container(
         margin: EdgeInsets.all(16),
         width: double.infinity,
-        height: 280,
+        height: 320,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
@@ -134,25 +132,44 @@ class _ReservationDialogState extends State<ReservationDialog> {
                 ),
               ),
               SizedBox(height: 5),
-              SizedBox(height: 5),
+              Container(
+                margin: EdgeInsets.only(left: 30, right: 30),
+                child: TextFormField(
+                  controller: pickUpLocationController,
+                  decoration: InputDecoration(
+                      labelText: 'pick up location',
+                      labelStyle: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10.0)),
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              SizedBox(height: 15),
               SmallBtn(
                 title: 'Confirm',
                 onPressed: () {
-                  range();
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Payment(
-                        carInfo: widget.carInfo,
-                        end: end,
-                        start: start,
-                        phone: phone,
-                        userName: userName,
-                        rangeOfDayRent: rangeDayOfRent,
+                  if (pickUpLocationController.text != '') {
+                    range();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Payment(
+                          carInfo: widget.carInfo,
+                          end: end,
+                          start: start,
+                          phone: phone,
+                          userName: userName,
+                          rangeOfDayRent: rangeDayOfRent,
+                          pickUpLocation: pickUpLocationController.text,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  } else {
+                    displayToastMessage('please set pick up location', context);
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  }
                 },
               )
             ],
@@ -171,7 +188,6 @@ class _ReservationDialogState extends State<ReservationDialog> {
       selectableDayPredicate: _decideWhichDayToEnable,
     );
     if (pickedDate != null && pickedDate != currentDate) {
-      end.compareTo(start);
       setState(() {
         end = pickedDate;
       });

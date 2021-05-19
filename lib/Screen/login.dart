@@ -165,16 +165,26 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
+                ),TextButton(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RegistrationPage.id, (route) => false);
+                  },
+                  child: Text(
+                    'Forget password',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
                 TextButton(
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, RegistrationPage.id, (route) => false);
-                    },
-                    child: Text(
-                      'Don\'t have an account, sign up here',
-                      style: TextStyle(color: Colors.black),
-                    )),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RegistrationPage.id, (route) => false);
+                  },
+                  child: Text(
+                    'Don\'t have an account, sign up here',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
               ],
             ),
           ),

@@ -1,4 +1,4 @@
-import 'package:car_rental_user/Screen/PhoneLogin/screens/loginpage.dart';
+import 'package:car_rental_user/Screen/login.dart';
 import 'package:car_rental_user/Widget/CarDetailCard.dart';
 import 'package:car_rental_user/models/CarInfo.dart';
 import 'package:car_rental_user/utils.dart';
@@ -22,16 +22,9 @@ class _MainPageState extends State<MainPage> {
     getData();
   }
 
-  void makeRoutePage({BuildContext context, Widget pageRef}) {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => pageRef),
-        (Route<dynamic> route) => false);
-  }
-
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    Navigator.pushNamed(context, LoginPages.id);
+    Navigator.pushNamed(context, LoginPage.id);
   }
 
   @override
@@ -41,7 +34,10 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         backgroundColor: Color(0xffe8e8e8),
         elevation: 0,
-        title: Text('Welcome.'),
+        title: Text(
+          'Welcome.',
+          style: TextStyle(color: Colors.black),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh_outlined),
@@ -59,7 +55,8 @@ class _MainPageState extends State<MainPage> {
                   onPressed: () {
                     _signOut();
                     Navigator.pop(context);
-                  })
+                  },
+                )
               : Container(),
         ],
       ),

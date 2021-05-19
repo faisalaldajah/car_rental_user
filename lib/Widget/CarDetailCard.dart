@@ -27,7 +27,7 @@ class CarDetailCard extends StatelessWidget {
         );
       },
       child: Container(
-        margin: EdgeInsets.only(left: 20, right: 20, top: 11),
+        margin: EdgeInsets.only(left: 20, right: 20, top: 15),
         padding: EdgeInsets.all(20),
         width: double.infinity,
         height: 160,

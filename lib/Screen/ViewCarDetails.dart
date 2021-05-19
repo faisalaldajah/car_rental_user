@@ -302,7 +302,7 @@ class ViewCarDetails extends StatelessWidget {
                       Navigator.pushNamed(context, LoginPage.id);
                     }
                   },
-                )
+                ),
               ],
             ),
           )
