@@ -1,6 +1,7 @@
 import 'package:car_rental_user/Screen/registration.dart';
 import 'package:car_rental_user/Widget/GradientButton.dart';
 import 'package:car_rental_user/Widget/ProgressDialog.dart';
+import 'package:car_rental_user/utils.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -18,7 +19,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  User user;
   void showSnackBar(String title) {
     final snackbar = SnackBar(
       content: Text(
@@ -46,19 +47,27 @@ class _LoginPageState extends State<LoginPage> {
         status: 'Logging you in',
       ),
     );
-
     final User user = (await _auth
             .signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
     )
-            .catchError((ex) {
-      //check error and display message
+            .catchError((errMsg) {
       Navigator.pop(context);
-      PlatformException thisEx = ex;
-      showSnackBar(thisEx.message);
+      displayToastMessage('wrong email or password', context);
     }))
         .user;
+
+    if (user != null) {
+      DatabaseReference adminRef =
+          FirebaseDatabase.instance.reference().child('admin/${user.uid}');
+      adminRef.once().then((DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, MainPage.id, (route) => false);
+        }
+      });
+    }
 
     if (user != null) {
       // verify login
@@ -165,7 +174,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                ),TextButton(
+                ),
+                TextButton(
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
                         context, RegistrationPage.id, (route) => false);

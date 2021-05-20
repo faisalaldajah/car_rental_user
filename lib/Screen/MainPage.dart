@@ -40,7 +40,10 @@ class _MainPageState extends State<MainPage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.refresh_outlined),
+            icon: Icon(
+              Icons.refresh_outlined,
+              color: Colors.black,
+            ),
             onPressed: () {
               setState(() {
                 youHaveData = false;
@@ -51,7 +54,10 @@ class _MainPageState extends State<MainPage> {
           ),
           (currentFirebaseUser != null)
               ? IconButton(
-                  icon: Icon(Icons.logout),
+                  icon: Icon(
+                    Icons.logout,
+                    color: Colors.black,
+                  ),
                   onPressed: () {
                     _signOut();
                     Navigator.pop(context);
