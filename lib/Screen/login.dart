@@ -1,3 +1,4 @@
+import 'package:car_rental_user/Screen/ResetPassword.dart';
 import 'package:car_rental_user/Screen/registration.dart';
 import 'package:car_rental_user/Widget/GradientButton.dart';
 import 'package:car_rental_user/Widget/ProgressDialog.dart';
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
     )
             .catchError((errMsg) {
       Navigator.pop(context);
-      displayToastMessage('wrong email or password', context);
+      displayToastMessage('Wrong email or password', context);
     }))
         .user;
 
@@ -178,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
-                        context, RegistrationPage.id, (route) => false);
+                        context, ResetPassword.id, (route) => false);
                   },
                   child: Text(
                     'Forget password',
