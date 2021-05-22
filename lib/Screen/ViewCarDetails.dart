@@ -19,10 +19,10 @@ class ViewCarDetails extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         elevation: 0,
-        title: Text('Vehicle'),
+        title: Text('Vehicle',style: TextStyle(color: Colors.black),),
       ),
       body: Column(
         children: [

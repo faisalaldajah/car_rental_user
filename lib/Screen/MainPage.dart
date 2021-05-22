@@ -14,7 +14,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   List<CarInfo> carsDetail = [];
-  bool youHaveData = false;
+  
 
   @override
   void initState() {

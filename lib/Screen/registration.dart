@@ -1,7 +1,6 @@
 import 'package:car_rental_user/Screen/MainPage.dart';
 import 'package:car_rental_user/Widget/GradientButton.dart';
 import 'package:car_rental_user/Widget/ProgressDialog.dart';
-import 'package:car_rental_user/utils.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -51,25 +50,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
         status: 'Registering you...',
       ),
     );
-
     final User user = (await _auth
             .createUserWithEmailAndPassword(
       email: emailController.text,
-      password: passwordController.text,
+      password: emailController.text,
     )
-            .catchError((ex) {
-      //check error and display message
-      Navigator.pop(context);
-      PlatformException thisEx = ex;
-      showSnackBar(thisEx.message);
-    }))
+            .catchError(
+      (ex) {
+        //check error and display message
+        Navigator.pop(context);
+        PlatformException thisEx = ex;
+        showSnackBar(thisEx.message);
+      },
+    ))
         .user;
 
     Navigator.pop(context);
     // check if user registration is successful
     if (user != null) {
+      print('id: ${user.uid}');
       DatabaseReference newUserRef =
-          FirebaseDatabase.instance.reference().child('users/${user.uid}');
+          FirebaseDatabase.instance.reference().child('admin/${user.uid}');
 
       //Prepare data to be saved on users table
       Map userMap = {
@@ -80,10 +81,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
       newUserRef.set(userMap);
 
-      currentFirebaseUser = user;
-
       //Take the user to the mainPage
-      Navigator.pushNamed(context, MainPage.id);
+      Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
     }
   }
 
@@ -220,8 +219,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 'password must be at least 8 characters');
                             return;
                           }
-
-                          registerUser();
+                          setState(() {
+                            registerUser();
+                          });
                         },
                       ),
                     ],

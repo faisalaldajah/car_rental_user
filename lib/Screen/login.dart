@@ -68,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
               context, MainPage.id, (route) => false);
         }
       });
+      print(currentFirebaseUser.uid);
     }
 
     if (user != null) {
