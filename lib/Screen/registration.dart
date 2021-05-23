@@ -81,9 +81,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
       };
 
       newUserRef.set(userMap);
-      setState(() {
+      
         userLoggedin = true;
-      });
+      
       //Take the user to the mainPage
       Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
     }

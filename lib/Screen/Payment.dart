@@ -91,105 +91,107 @@ class _PaymentState extends State<Payment> {
       appBar: AppBar(
         title: Text(
           'Payment',
-          style: pageTitle,
+          style: TextStyle(color: Colors.black),
         ),
         elevation: 0,
         backgroundColor: Color(0xfff5f5f5),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: Icon(
+            Icons.arrow_back_ios_outlined,
+            color: Colors.black,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-      body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 30),
-            Icon(
-              Icons.payments_rounded,
-              size: 130,
-              color: colorBtn1,
-            ),
-            SizedBox(height: 15),
-            Text('${widget.userName}'),
-            SizedBox(height: 15),
-            Text('${widget.phone}'),
-            SizedBox(height: 20),
-            Text(
-              'Choose payment method',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 15),
+          Icon(
+            Icons.payments_rounded,
+            size: 100,
+            color: colorBtn1,
+          ),
+          SizedBox(height: 15),
+          Text('${widget.userName}'),
+          SizedBox(height: 15),
+          Text('${widget.phone}'),
+          SizedBox(height: 20),
+          Text(
+            'Choose payment method',
+            style: TextStyle(fontSize: 18.0),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Checkbox(
+                activeColor: Colors.blue,
+                value: cash,
+                onChanged: (value) {
+                  setState(() {
+                    cash = value;
+                    card = false;
+                  });
+                },
+              ),
+              Text(
+                'Cash',
+                style: TextStyle(fontSize: 17.0),
+              ),
+              SizedBox(width: 20),
+              Checkbox(
+                activeColor: Colors.blue,
+                value: card,
+                onChanged: (value) {
+                  setState(() {
+                    card = value;
+                    cash = false;
+                  });
+                },
+              ),
+              Text(
+                'Card',
+                style: TextStyle(fontSize: 17.0),
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          Text(
+            '${totalPrice}JD',
+            style: TextStyle(fontSize: 40),
+          ),
+          SizedBox(height: 30),
+          Text(
+            '${widget.pickUpLocation}',
+            style: TextStyle(fontSize: 25, color: Colors.black),
+          ),
+          SizedBox(height: 20),
+          Expanded(
+              child: Container(
+            child: Column(
               children: [
-                Checkbox(
-                  activeColor: Colors.blue,
-                  value: cash,
-                  onChanged: (value) {
-                    setState(() {
-                      cash = value;
-                      card = false;
-                    });
-                  },
-                ),
-                Text(
-                  'Cash',
-                  style: TextStyle(fontSize: 17.0),
-                ),
-                SizedBox(width: 20),
-                Checkbox(
-                  activeColor: Colors.blue,
-                  value: card,
-                  onChanged: (value) {
-                    setState(() {
-                      card = value;
-                      cash = false;
-                    });
-                  },
-                ),
-                Text(
-                  'Card',
-                  style: TextStyle(fontSize: 17.0),
+                Text('Thanks you for choosing us'),
+                SvgPicture.asset(
+                  'assets/images/logo.svg',
+                  width: 100,
+                  height: 100,
                 ),
               ],
             ),
-            SizedBox(height: 30),
-            Text(
-              '${totalPrice}JD',
-              style: TextStyle(fontSize: 40),
-            ),
-            SizedBox(height: 30),
-            Text(
-              '${widget.pickUpLocation}',
-              style: TextStyle(fontSize: 25,color: Colors.black),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-                child: Container(
-              child: Column(
-                children: [
-                  Text('Thanks you for choosing us'),
-                  SvgPicture.asset(
-                    'assets/images/logo.svg',
-                    width: 120,
-                    height: 120,
-                  ),
-                ],
-              ),
-            )),
-            GradientButton(
-              title: 'Confirm',
-              onPressed: () {
-                availabilityCar();
-                getPaid();
-              },
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
+          )),
+          SizedBox(height: 10),
+          GradientButton(
+            title: 'Confirm',
+            onPressed: () {
+              availabilityCar();
+              getPaid();
+            },
+          ),
+          SizedBox(height: 20),
+        ],
       ),
     );
   }
@@ -246,7 +248,8 @@ class CashPaymentMetod extends StatelessWidget {
             SmallBtn(
               title: 'Confirm',
               onPressed: () {
-                Navigator.pushNamed(context, MainPage.id);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, MainPage.id, (route) => false);
               },
             )
           ],
@@ -274,11 +277,12 @@ class CardPayment extends StatelessWidget {
         elevation: 0,
         title: Text(
           'Card Payment',
-          style: pageTitle,
+          style: TextStyle(color: Colors.black),
         ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_outlined,
+            color: Colors.black,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -358,6 +362,7 @@ class CardPayment extends StatelessWidget {
       ),
     );
   }
+
   //TODO
   void cardDetails(context) {
     DatabaseReference carRef =
@@ -374,6 +379,6 @@ class CardPayment extends StatelessWidget {
     exp.clear();
     cvc.clear();
     FocusScope.of(context).requestFocus(FocusNode());
-    Navigator.pushNamed(context, MainPage.id);
+    Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
   }
 }

@@ -19,11 +19,17 @@ class _AvailabltyState extends State<Availablty> {
     return Scaffold(
       backgroundColor: Color(0xfff5f5f5),
       appBar: AppBar(
-        title: Text('Availablty'),
+        title: Text(
+          'Availablty',
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: Color(0xfff5f5f5),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: Icon(
+            Icons.arrow_back_ios_outlined,
+            color: Colors.black,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -134,8 +140,14 @@ class DataDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('Form: ${allPaymensData[index].from}',style: bodyText,),
-              Text('To: ${allPaymensData[index].to}',style: bodyText,),
+              Text(
+                'Form: ${allPaymensData[index].from}',
+                style: bodyText,
+              ),
+              Text(
+                'To: ${allPaymensData[index].to}',
+                style: bodyText,
+              ),
             ],
           )
         ],

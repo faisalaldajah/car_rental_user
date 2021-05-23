@@ -45,7 +45,7 @@ class _ReservationDialogState extends State<ReservationDialog> {
       child: Container(
         margin: EdgeInsets.all(16),
         width: double.infinity,
-        height: 320,
+        height: 340,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),

@@ -19,10 +19,16 @@ class ViewCarDetails extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
         ),
         elevation: 0,
-        title: Text('Vehicle',style: TextStyle(color: Colors.black),),
+        title: Text(
+          'Vehicle',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Column(
         children: [
@@ -290,7 +296,8 @@ class ViewCarDetails extends StatelessWidget {
                 GradientButton(
                   title: 'Reservation',
                   onPressed: () {
-                    if (currentFirebaseUser != null) {
+                    print(userLoggedin);
+                    if (userLoggedin != false) {
                       showDialog(
                         context: context,
                         barrierDismissible: false,
