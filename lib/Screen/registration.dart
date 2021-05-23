@@ -71,7 +71,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (user != null) {
       print('id: ${user.uid}');
       DatabaseReference newUserRef =
-          FirebaseDatabase.instance.reference().child('admin/${user.uid}');
+          FirebaseDatabase.instance.reference().child('users/${user.uid}');
 
       //Prepare data to be saved on users table
       Map userMap = {
