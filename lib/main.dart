@@ -12,9 +12,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   // ignore: await_only_futures
   currentFirebaseUser = await FirebaseAuth.instance.currentUser;
-  if (currentFirebaseUser != null) {
-    youHaveData = true;
-  }
+  
   runApp(MyApp());
 }
 

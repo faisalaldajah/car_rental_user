@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
               });
             },
           ),
-          (userLoggedin != null)
+          (userLoggedin != false)
               ? IconButton(
                   icon: Icon(
                     Icons.logout,
