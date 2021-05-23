@@ -105,93 +105,95 @@ class _PaymentState extends State<Payment> {
           },
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 15),
-          Icon(
-            Icons.payments_rounded,
-            size: 100,
-            color: colorBtn1,
-          ),
-          SizedBox(height: 15),
-          Text('${widget.userName}'),
-          SizedBox(height: 15),
-          Text('${widget.phone}'),
-          SizedBox(height: 20),
-          Text(
-            'Choose payment method',
-            style: TextStyle(fontSize: 18.0),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Checkbox(
-                activeColor: Colors.blue,
-                value: cash,
-                onChanged: (value) {
-                  setState(() {
-                    cash = value;
-                    card = false;
-                  });
-                },
-              ),
-              Text(
-                'Cash',
-                style: TextStyle(fontSize: 17.0),
-              ),
-              SizedBox(width: 20),
-              Checkbox(
-                activeColor: Colors.blue,
-                value: card,
-                onChanged: (value) {
-                  setState(() {
-                    card = value;
-                    cash = false;
-                  });
-                },
-              ),
-              Text(
-                'Card',
-                style: TextStyle(fontSize: 17.0),
-              ),
-            ],
-          ),
-          SizedBox(height: 30),
-          Text(
-            '${totalPrice}JD',
-            style: TextStyle(fontSize: 40),
-          ),
-          SizedBox(height: 30),
-          Text(
-            '${widget.pickUpLocation}',
-            style: TextStyle(fontSize: 25, color: Colors.black),
-          ),
-          SizedBox(height: 20),
-          Expanded(
-              child: Container(
-            child: Column(
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 15),
+            Icon(
+              Icons.payments_rounded,
+              size: 100,
+              color: colorBtn1,
+            ),
+            SizedBox(height: 15),
+            Text('${widget.userName}'),
+            SizedBox(height: 15),
+            Text('${widget.phone}'),
+            SizedBox(height: 20),
+            Text(
+              'Choose payment method',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Thanks you for choosing us'),
-                SvgPicture.asset(
-                  'assets/images/logo.svg',
-                  width: 100,
-                  height: 100,
+                Checkbox(
+                  activeColor: Colors.blue,
+                  value: cash,
+                  onChanged: (value) {
+                    setState(() {
+                      cash = value;
+                      card = false;
+                    });
+                  },
+                ),
+                Text(
+                  'Cash',
+                  style: TextStyle(fontSize: 17.0),
+                ),
+                SizedBox(width: 20),
+                Checkbox(
+                  activeColor: Colors.blue,
+                  value: card,
+                  onChanged: (value) {
+                    setState(() {
+                      card = value;
+                      cash = false;
+                    });
+                  },
+                ),
+                Text(
+                  'Card',
+                  style: TextStyle(fontSize: 17.0),
                 ),
               ],
             ),
-          )),
-          SizedBox(height: 10),
-          GradientButton(
-            title: 'Confirm',
-            onPressed: () {
-              availabilityCar();
-              getPaid();
-            },
-          ),
-          SizedBox(height: 20),
-        ],
+            SizedBox(height: 30),
+            Text(
+              '${totalPrice}JD',
+              style: TextStyle(fontSize: 40),
+            ),
+            SizedBox(height: 30),
+            Text(
+              '${widget.pickUpLocation}',
+              style: TextStyle(fontSize: 25, color: Colors.black),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+                child: Container(
+              child: Column(
+                children: [
+                  Text('Thanks you for choosing us'),
+                  SvgPicture.asset(
+                    'assets/images/logo.svg',
+                    width: 100,
+                    height: 100,
+                  ),
+                ],
+              ),
+            )),
+            SizedBox(height: 10),
+            GradientButton(
+              title: 'Confirm',
+              onPressed: () {
+                availabilityCar();
+                getPaid();
+              },
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
