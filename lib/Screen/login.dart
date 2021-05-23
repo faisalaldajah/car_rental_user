@@ -62,13 +62,15 @@ class _LoginPageState extends State<LoginPage> {
     if (user != null) {
       DatabaseReference adminRef =
           FirebaseDatabase.instance.reference().child('admin/${user.uid}');
+      setState(() {
+        userLoggedin = true;
+      });
       adminRef.once().then((DataSnapshot snapshot) {
         if (snapshot.value != null) {
           Navigator.pushNamedAndRemoveUntil(
               context, MainPage.id, (route) => false);
         }
       });
-      print(currentFirebaseUser.uid);
     }
 
     if (user != null) {

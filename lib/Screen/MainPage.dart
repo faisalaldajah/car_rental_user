@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
               });
             },
           ),
-          (currentFirebaseUser != null)
+          (userLoggedin != null)
               ? IconButton(
                   icon: Icon(
                     Icons.logout,

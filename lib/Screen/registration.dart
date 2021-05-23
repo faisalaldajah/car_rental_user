@@ -1,6 +1,7 @@
 import 'package:car_rental_user/Screen/MainPage.dart';
 import 'package:car_rental_user/Widget/GradientButton.dart';
 import 'package:car_rental_user/Widget/ProgressDialog.dart';
+import 'package:car_rental_user/utils.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -80,7 +81,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
       };
 
       newUserRef.set(userMap);
-
+      setState(() {
+        userLoggedin = true;
+      });
       //Take the user to the mainPage
       Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
     }
